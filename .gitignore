@@ -1,0 +1,64 @@
+# Unity generated folders
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# Asset Store tools
+Assets/AssetStoreTools*
+
+# VS/JetBrains
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity cache
+UnityPackageManager/
+/Packages/packages-lock.json
+
+# Crash/Reports
+sysinfo.txt
+*.stacktrace
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Unity Plastic SCM metadata
+.plastic/
+
+# TextMesh Pro auto-generated files
+Assets/TextMesh Pro/**/Resources/*
+
+# Rider
+.idea/
+
+# Addressables build path
+Assets/AddressableAssetsData/*/catalog.json
+Assets/AddressableAssetsData/*/link.xml
+
+# Build artifacts
+*/bin/
+*/obj/
+
+# Plugin caches
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/PackageManagerSettings.asset
+
+
