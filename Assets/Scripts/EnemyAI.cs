@@ -1,8 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player;
+    [Header("Target")]
+    public Transform player;            // İstersen Inspector’dan ver
+    public string playerTag = "Player"; // Boşsa bu tag ile otomatik bulur
+
+    [Header("Ranges")]
     public float detectionRange = 5f;
     public float attackRange = 1.2f;
     public float moveSpeed = 2f;
@@ -11,119 +16,161 @@ public class EnemyAI : MonoBehaviour
     [Header("Platform Safety")]
     public LayerMask whatIsGround;
     public Transform groundCheck;
+    public float groundCheckDistance = 0.5f;
 
     private bool movingRight = true;
     private float lastAttackTime;
     private Rigidbody2D rb;
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnEnable()
+    private void Start()
     {
-        // When respawning/starting, ensure the enemy is still
-        if (rb != null)
+        // Eğer Inspector’dan player atanmamışsa, tag ile bulmayı dene
+        if (player == null && !string.IsNullOrEmpty(playerTag))
         {
-            rb.linearVelocity = Vector2.zero;
+            GameObject p = GameObject.FindGameObjectWithTag(playerTag);
+            if (p != null)
+            {
+                player = p.transform;
+            }
+        }
+
+        // Hâlâ yoksa, kendini kapat ki hata yağdırmasın
+        if (player == null)
+        {
+            Debug.LogWarning($"{nameof(EnemyAI)} on {name}: Player reference is missing. Disabling EnemyAI.", this);
+            enabled = false;
+            return;
+        }
+
+        if (groundCheck == null)
+        {
+            Debug.LogWarning($"{nameof(EnemyAI)} on {name}: groundCheck is not assigned.", this);
         }
     }
 
-    void Update()
+    private void OnEnable()
     {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    private void Update()
+    {
+        if (player == null) return; // ekstra güvenlik
+
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= attackRange)
         {
-            // Attack State
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-            Attack();
+            // Attack state
+            StopHorizontal();
+            TryAttack();
         }
         else if (distanceToPlayer <= detectionRange)
         {
-            // Chase State
+            // Chase state
             ChasePlayer();
         }
         else
         {
-            // Patrol State
+            // Patrol state
             Patrol();
         }
     }
 
-    void Patrol()
+    private void StopHorizontal()
     {
-        // Check for ground ahead. If none, flip.
-        if (!IsGroundAhead())
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+    }
+
+    private void Patrol()
+    {
+        // Önünde zemin yoksa dön
+        if (groundCheck != null && !IsGroundAhead())
         {
             Flip();
         }
-        
-        rb.linearVelocity = new Vector2(moveSpeed * (movingRight ? 1 : -1), rb.linearVelocity.y);
+
+        float dir = movingRight ? 1f : -1f;
+        rb.linearVelocity = new Vector2(dir * moveSpeed, rb.linearVelocity.y);
     }
 
-    void ChasePlayer()
+    private void ChasePlayer()
     {
-        // Check for ground ahead. If none, stop.
-        if (!IsGroundAhead())
+        // Önünde zemin yoksa koşmayı kes
+        if (groundCheck != null && !IsGroundAhead())
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            StopHorizontal();
             return;
         }
 
-        // Turn to face the player
-        if ((player.position.x > transform.position.x && !movingRight) || (player.position.x < transform.position.x && movingRight))
+        // Player hangi tarafta ise o yöne bak
+        float directionToPlayer = Mathf.Sign(player.position.x - transform.position.x);
+
+        if ((directionToPlayer > 0f && !movingRight) ||
+            (directionToPlayer < 0f && movingRight))
         {
             Flip();
         }
-        // Move towards the player
-        rb.linearVelocity = new Vector2(moveSpeed * (movingRight ? 1 : -1), rb.linearVelocity.y);
+
+        float dir = movingRight ? 1f : -1f;
+        rb.linearVelocity = new Vector2(dir * moveSpeed, rb.linearVelocity.y);
     }
 
-    bool IsGroundAhead()
+    private bool IsGroundAhead()
     {
-        // Use a short raycast from the groundCheck position to see if there's ground in front
-        Vector2 raycastOrigin = groundCheck.position;
-        RaycastHit2D hit = Physics2D.Raycast(raycastOrigin, Vector2.down, 0.5f, whatIsGround);
+        if (groundCheck == null) return true; // güvenlik: atanmadıysa düşmesin
+
+        Vector2 origin = groundCheck.position;
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, whatIsGround);
         return hit.collider != null;
     }
 
-    void Attack()
+    private void TryAttack()
     {
-        if (Mathf.Abs(player.position.y - transform.position.y) < 0.5f)
+        // Cooldown kontrolü
+        if (Time.time - lastAttackTime < attackCooldown)
+            return;
+
+        // Çok farklı yükseklikteyse vurmasın
+        if (Mathf.Abs(player.position.y - transform.position.y) > 0.5f)
+            return;
+
+        lastAttackTime = Time.time;
+
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
+        if (health != null)
         {
-            if (Time.time - lastAttackTime >= attackCooldown)
-            {
-                lastAttackTime = Time.time;
-                
-                PlayerHealth health = player.GetComponent<PlayerHealth>();
-                if (health != null)
-                    health.TakeDamage(1);
-            }
+            health.TakeDamage(1);
         }
     }
 
-    void Flip()
+    private void Flip()
     {
         movingRight = !movingRight;
-        Vector3 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1f;
+        transform.localScale = scale;
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        // Draw ground check gizmo
         if (groundCheck != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * 0.5f);
+            Gizmos.DrawLine(groundCheck.position,
+                            groundCheck.position + Vector3.down * groundCheckDistance);
         }
     }
 }

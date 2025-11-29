@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerRespawn : MonoBehaviour
 {
-    public Transform respawnPoint; // respawn noktası
+    public Transform respawnPoint;
 
     private Rigidbody2D rb;
 
@@ -24,9 +24,7 @@ public class PlayerRespawn : MonoBehaviour
         if (respawnPoint == null)
             return;
 
-        if (rb != null)
-            rb.linearVelocity = Vector2.zero;
-
+        rb.linearVelocity = Vector2.zero;
         transform.position = respawnPoint.position;
     }
 }
