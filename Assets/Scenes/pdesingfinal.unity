@@ -1455,11 +1455,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6889646421509566007, guid: 898a4c1ba409c2144b179d5b3b5ab106, type: 3}
   m_PrefabInstance: {fileID: 2761340887575713464}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &768909288 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2800086284819094999, guid: 25010c247ed5f3e4a8c744f2b82eef28, type: 3}
-  m_PrefabInstance: {fileID: 6690152715043825623}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &796323472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1528,17 +1523,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 436253035}
   m_SourcePrefab: {fileID: 100100000, guid: 6cbd15bb21577af4e9d82be3b87818ad, type: 3}
---- !u!114 &824284673 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6133603286714764967, guid: 25010c247ed5f3e4a8c744f2b82eef28, type: 3}
-  m_PrefabInstance: {fileID: 6690152715043825623}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &861960168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,7 +1558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 125.6, y: -128.1}
+  m_AnchoredPosition: {x: 125.60156, y: -128.09961}
   m_SizeDelta: {x: 203.4, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &861960170
@@ -1699,17 +1683,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85b7db77e9399184ca07f4b9a3beff87, type: 3}
---- !u!114 &1011972413 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 53610093113135609, guid: 25010c247ed5f3e4a8c744f2b82eef28, type: 3}
-  m_PrefabInstance: {fileID: 6690152715043825623}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &1027036473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1844,17 +1817,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85b7db77e9399184ca07f4b9a3beff87, type: 3}
---- !u!114 &1156031119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-  m_PrefabInstance: {fileID: 4691948809180248407}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61eb52b0a0bc5284a843449b8826fc44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &1232261766
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,7 +2097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 0.4
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
@@ -3032,97 +2994,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2262604139315208163, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5043697631689190546, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6489579812146704725, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
-    - target: {fileID: 6489579812146704725, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: nextDialogue
-      value: 
-      objectReference: {fileID: 1156031119}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: playerNameText
-      value: 
-      objectReference: {fileID: 824284673}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: usePlayerDialogue
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: playerDialogueText
-      value: 
-      objectReference: {fileID: 1011972413}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: playerDialoguePanel
-      value: 
-      objectReference: {fileID: 768909288}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: dialogueLines.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'dialogueLines.Array.data[0]'
-      value: ' "The dungeon ahead is full of danger."'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'dialogueLines.Array.data[1]'
-      value: asdfsafdsaf
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'dialogueLines.Array.data[2]'
-      value: adfsadfdsafdsafds
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'dialogueLines.Array.data[3]'
-      value: ASDFAFDSF
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'dialogueLines.Array.data[4]'
-      value: SADFASFDSAFSDF
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: playerDialogueLines.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'playerDialogueLines.Array.data[0]'
-      value: merhaba
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'playerDialogueLines.Array.data[1]'
-      value: adal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'playerDialogueLines.Array.data[2]'
-      value: adal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6588630885411146110, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: 'playerDialogueLines.Array.data[3]'
-      value: asdfsafdasfsfd
-      objectReference: {fileID: 0}
-    - target: {fileID: 9072476500766687004, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9096385578977045469, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.45
+      value: -33.01
       objectReference: {fileID: 0}
     - target: {fileID: 9096385578977045469, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 9096385578977045469, guid: 559876cc8bb7e8040bb0ef5e7c5a027c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3427,7 +3309,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5159251531963644659, guid: 25010c247ed5f3e4a8c744f2b82eef28, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25010c247ed5f3e4a8c744f2b82eef28, type: 3}

@@ -27,11 +27,6 @@ public class NPCDialogue : MonoBehaviour
     public GameObject continueButton;
     public GameObject interactPrompt;
     
-    [Header("Player Bubble References")]
-    public GameObject playerDialoguePanel;
-    public TextMeshProUGUI playerDialogueText;
-    public TextMeshProUGUI playerNameText;
-    
     [Header("Animation Settings")]
     public float animationDuration = 0.3f;
     public AnimationType openAnimation = AnimationType.ScaleUp;
@@ -46,14 +41,11 @@ public class NPCDialogue : MonoBehaviour
     private bool isDialogueActive = false;
     private int currentLineIndex = 0;
     private bool isAnimating = false;
-    private bool isShowingPlayerDialogue = false;
     
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
     private CanvasGroup panelCanvasGroup;
     private RectTransform panelRectTransform;
-    private CanvasGroup playerPanelCanvasGroup;
-    private RectTransform playerPanelRectTransform;
     
     public enum AnimationType
     {
@@ -83,17 +75,6 @@ public class NPCDialogue : MonoBehaviour
             }
             panelRectTransform = dialoguePanel.GetComponent<RectTransform>();
             dialoguePanel.SetActive(false);
-        }
-        
-        if (playerDialoguePanel != null)
-        {
-            playerPanelCanvasGroup = playerDialoguePanel.GetComponent<CanvasGroup>();
-            if (playerPanelCanvasGroup == null)
-            {
-                playerPanelCanvasGroup = playerDialoguePanel.AddComponent<CanvasGroup>();
-            }
-            playerPanelRectTransform = playerDialoguePanel.GetComponent<RectTransform>();
-            playerDialoguePanel.SetActive(false);
         }
             
         if (interactPrompt != null)
@@ -158,108 +139,79 @@ public class NPCDialogue : MonoBehaviour
         
         DialogueLine line = dialogueSequence[index];
         
-        // Determine if this is player or NPC dialogue
-        bool isPlayer = line.speaker.ToLower() == "player";
-        isShowingPlayerDialogue = isPlayer;
-        
-        // Activate appropriate panel
-        GameObject activePanel = isPlayer ? playerDialoguePanel : dialoguePanel;
-        
-        if (activePanel == null)
+        if (dialoguePanel == null)
         {
-            Debug.LogError("Dialogue panel is null for " + line.speaker);
+            Debug.LogError("Dialogue panel is null");
             return;
         }
         
         // UPDATE TEXT FIRST before activating panel and animating
-        UpdateDialogueText(line, isPlayer);
+        UpdateDialogueText(line);
         
-        activePanel.SetActive(true);
-        StartCoroutine(OpenDialogueWithAnimation(isPlayer));
+        dialoguePanel.SetActive(true);
+        StartCoroutine(OpenDialogueWithAnimation());
     }
     
-    void UpdateDialogueText(DialogueLine line, bool isPlayer)
+    void UpdateDialogueText(DialogueLine line)
     {
-        if (isPlayer)
-        {
-            if (playerDialogueText != null)
-                playerDialogueText.text = line.text;
-            if (playerNameText != null)
-                playerNameText.text = playerName;
-        }
-        else
-        {
-            if (dialogueText != null)
-                dialogueText.text = line.text;
-            if (npcNameText != null)
-                npcNameText.text = npcName;
-        }
+        if (dialogueText != null)
+            dialogueText.text = line.text;
+        if (npcNameText != null)
+            npcNameText.text = line.speaker.ToLower() == "player" ? playerName : npcName;
     }
     
-    IEnumerator OpenDialogueWithAnimation(bool isPlayer)
+    IEnumerator OpenDialogueWithAnimation()
     {
         isAnimating = true;
-        
-        GameObject activePanel = isPlayer ? playerDialoguePanel : dialoguePanel;
-        CanvasGroup activeCanvasGroup = isPlayer ? playerPanelCanvasGroup : panelCanvasGroup;
-        RectTransform activeRectTransform = isPlayer ? playerPanelRectTransform : panelRectTransform;
         
         switch (openAnimation)
         {
             case AnimationType.ScaleUp:
-                yield return StartCoroutine(ScaleAnimation(activeRectTransform, Vector3.zero, Vector3.one));
+                yield return StartCoroutine(ScaleAnimation(panelRectTransform, Vector3.zero, Vector3.one));
                 break;
             case AnimationType.SlideFromTop:
-                yield return StartCoroutine(SlideAnimation(activeRectTransform, new Vector2(0, 200), Vector2.zero));
+                yield return StartCoroutine(SlideAnimation(panelRectTransform, new Vector2(0, 200), Vector2.zero));
                 break;
             case AnimationType.SlideFromBottom:
-                yield return StartCoroutine(SlideAnimation(activeRectTransform, new Vector2(0, -200), Vector2.zero));
+                yield return StartCoroutine(SlideAnimation(panelRectTransform, new Vector2(0, -200), Vector2.zero));
                 break;
             case AnimationType.Fade:
-                yield return StartCoroutine(FadeAnimation(activeCanvasGroup, activeRectTransform, 0f, 1f));
+                yield return StartCoroutine(FadeAnimation(panelCanvasGroup, panelRectTransform, 0f, 1f));
                 break;
         }
         
         isAnimating = false;
     }
     
-    IEnumerator CloseDialogueWithAnimation(bool isPlayer)
+    IEnumerator CloseDialogueWithAnimation()
     {
         isAnimating = true;
-        
-        GameObject activePanel = isPlayer ? playerDialoguePanel : dialoguePanel;
-        CanvasGroup activeCanvasGroup = isPlayer ? playerPanelCanvasGroup : panelCanvasGroup;
-        RectTransform activeRectTransform = isPlayer ? playerPanelRectTransform : panelRectTransform;
         
         switch (closeAnimation)
         {
             case AnimationType.ScaleDown:
-                yield return StartCoroutine(ScaleAnimation(activeRectTransform, Vector3.one, Vector3.zero));
+                yield return StartCoroutine(ScaleAnimation(panelRectTransform, Vector3.one, Vector3.zero));
                 break;
             case AnimationType.SlideFromTop:
-                yield return StartCoroutine(SlideAnimation(activeRectTransform, Vector2.zero, new Vector2(0, 200)));
+                yield return StartCoroutine(SlideAnimation(panelRectTransform, Vector2.zero, new Vector2(0, 200)));
                 break;
             case AnimationType.SlideFromBottom:
-                yield return StartCoroutine(SlideAnimation(activeRectTransform, Vector2.zero, new Vector2(0, -200)));
+                yield return StartCoroutine(SlideAnimation(panelRectTransform, Vector2.zero, new Vector2(0, -200)));
                 break;
             case AnimationType.Fade:
-                yield return StartCoroutine(FadeAnimation(activeCanvasGroup, activeRectTransform, 1f, 0f));
+                yield return StartCoroutine(FadeAnimation(panelCanvasGroup, panelRectTransform, 1f, 0f));
                 break;
         }
         
-        activePanel.SetActive(false);
+        dialoguePanel.SetActive(false);
         isAnimating = false;
     }
     
     IEnumerator CloseAllDialogueWithAnimation()
     {
-        if (isShowingPlayerDialogue && playerDialoguePanel != null && playerDialoguePanel.activeSelf)
+        if (dialoguePanel != null && dialoguePanel.activeSelf)
         {
-            yield return StartCoroutine(CloseDialogueWithAnimation(true));
-        }
-        else if (dialoguePanel != null && dialoguePanel.activeSelf)
-        {
-            yield return StartCoroutine(CloseDialogueWithAnimation(false));
+            yield return StartCoroutine(CloseDialogueWithAnimation());
         }
         
         EndDialogue();
@@ -329,7 +281,7 @@ public class NPCDialogue : MonoBehaviour
         DialogueLine currentLine = dialogueSequence[currentLineIndex];
         
         // Close current bubble
-        yield return StartCoroutine(CloseDialogueWithAnimation(isShowingPlayerDialogue));
+        yield return StartCoroutine(CloseDialogueWithAnimation());
         
         // Determine next line index
         int nextIndex;
@@ -361,21 +313,13 @@ public class NPCDialogue : MonoBehaviour
         
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
-        if (playerDialoguePanel != null)
-            playerDialoguePanel.SetActive(false);
             
         currentLineIndex = 0;
-        isShowingPlayerDialogue = false;
         
         if (panelRectTransform != null)
         {
             panelRectTransform.localScale = Vector3.one;
             panelCanvasGroup.alpha = 1f;
-        }
-        if (playerPanelRectTransform != null)
-        {
-            playerPanelRectTransform.localScale = Vector3.one;
-            playerPanelCanvasGroup.alpha = 1f;
         }
         
         if (playerMovement != null)
