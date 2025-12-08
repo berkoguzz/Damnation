@@ -285,7 +285,7 @@ public class EnemyAI : MonoBehaviour
 
         DrawDetectionAngleGizmo();
     }
-
+    // Çizim için yardımcı metotlar
     private void DrawDetectionAngleGizmo()
     {
         if (detectionRange <= 0) return;
